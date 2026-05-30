@@ -1257,23 +1257,9 @@
             }
 
             .navigation-bar {
-                position: fixed;
-                bottom: 0;
-                left: 50%;
-                transform: translateX(-50%);
                 width: 100%;
                 max-width: 820px;
-                padding: 10px 20px;
-                padding-bottom: max(10px, env(safe-area-inset-bottom));
-                background: var(--card-bg);
-                border-top: 1px solid var(--border);
-                box-shadow: 0 -2px 12px rgba(0,0,0,0.06);
-                z-index: 100;
-            }
-
-            /* 固定导航栏时，底部留出空间 */
-            .feedback-container {
-                padding-bottom: 80px;
+                padding: 0 0 100px;
             }
 
             .bottom-bar {
@@ -1281,7 +1267,6 @@
                 border-radius: 16px 16px 0 0;
                 left: 50%;
                 transform: translateX(-50%);
-                padding-bottom: 70px;
             }
 
             .answer-btn:hover {
@@ -2485,6 +2470,39 @@
         }
 
         @media (max-width: 600px) {
+            /* 移动端固定双栏底部导航 */
+            .navigation-bar {
+                position: fixed;
+                bottom: 0;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 100%;
+                max-width: 820px;
+                padding: 8px 12px;
+                padding-bottom: 4px;
+                background: var(--card-bg);
+                border-top: 1px solid var(--border);
+                box-shadow: 0 -2px 12px rgba(0,0,0,0.06);
+                z-index: 101;
+            }
+
+            .bottom-bar {
+                position: fixed;
+                bottom: 0;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 100%;
+                max-width: 820px;
+                padding: 4px 12px 8px;
+                padding-bottom: max(8px, env(safe-area-inset-bottom));
+                background: var(--card-bg);
+                border-radius: 0;
+                z-index: 100;
+            }
+            /* 为固定栏留空间（nav 约42px + bottom 约52px） */
+            .bottom-bar { margin-bottom: 42px; }
+            .feedback-container { padding-bottom: 100px; }
+
             .practice-workspace {
                 padding: 0 12px 24px;
                 gap: 16px;
