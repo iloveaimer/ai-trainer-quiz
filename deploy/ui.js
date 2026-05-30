@@ -1,10 +1,20 @@
     /* ------- UI Module (Task 3) ------- */
     var UI = (function() {
+        var memorizeShowAll = false;
+
         return {
+            toggleMemorizeShowAll() {
+                memorizeShowAll = !memorizeShowAll;
+                return memorizeShowAll;
+            },
+
             render() {
                 var state = State.getCurrent();
                 var isExamActive = state.exam && state.exam.inExam;
                 var isExamCompleted = state.exam && state.exam.isCompleted;
+
+                // 退出背题模式时重置显示状态
+                if (state.mode !== 'memorize') memorizeShowAll = false;
 
                 this.updateModeBadge();
                 this.renderStats();
@@ -366,20 +376,29 @@
                 var userAnswer = answered ? State.getAnswer(qIndex) : null;
                 var html = '';
 
-                // 背题模式：只展示正确答案
+                // 背题模式：默认仅展示正确答案，按↑↓可切换显示全部选项
                 if (state.mode === 'memorize') {
                     for (var i = 0; i < question.options.length; i++) {
                         var opt = question.options[i];
                         var isAnswer = question.type === 'single'
                             ? (opt.label === question.answer)
                             : (question.answer.indexOf(opt.label) !== -1);
-                        if (isAnswer) {
+                        if (memorizeShowAll) {
+                            // 显示全部，正确答案绿色高亮
+                            var cls = isAnswer ? 'choice-option correct-option' : 'choice-option disabled';
+                            html += '<button class="' + cls + '" data-label="' + opt.label + '" disabled>' +
+                                '<span class="option-label">' + opt.label + '</span>' +
+                                '<span class="option-text">' + opt.text + '</span>' +
+                                '</button>';
+                        } else if (isAnswer) {
                             html += '<button class="choice-option correct-option" data-label="' + opt.label + '" disabled>' +
                                 '<span class="option-label">' + opt.label + '</span>' +
                                 '<span class="option-text">' + opt.text + '</span>' +
                                 '</button>';
                         }
                     }
+                    // Hint
+                    html += '<div class="memorize-hint">' + (memorizeShowAll ? '显示全部选项' : '按 ↑ 或 ↓ 查看全部选项') + '</div>';
                     container.innerHTML = html;
                     return;
                 }

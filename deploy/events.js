@@ -221,6 +221,15 @@
 
                     if (Modal.getOverlay().classList.contains('visible')) return;
 
+                    // 背题模式：↑或↓切换显示全部/仅正确答案
+                    var state = State.getCurrent();
+                    if (state.mode === 'memorize' && (e.key === 'ArrowUp' || e.key === 'ArrowDown')) {
+                        e.preventDefault();
+                        UI.toggleMemorizeShowAll();
+                        UI.render();
+                        return;
+                    }
+
                     if (e.key === 'ArrowLeft') {
                         e.preventDefault();
                         if (State.canGoPrev()) { State.goPrev(); UI.render(); }

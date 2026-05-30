@@ -1528,6 +1528,15 @@
             color: #FFFFFF;
         }
 
+        /* 背题模式提示 */
+        .memorize-hint {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-align: center;
+            margin-top: 6px;
+            opacity: 0.7;
+        }
+
         .choice-option.correct {
             border-color: var(--correct) !important;
             background: var(--correct-light) !important;
