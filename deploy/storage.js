@@ -3,7 +3,8 @@
         const KEYS = {
             progress: 'quiz_progress',
             history: 'quiz_history',
-            wrong: 'quiz_wrong'
+            wrong: 'quiz_wrong',
+            favorites: 'quiz_favorites'
         };
 
         function _get(key) {
@@ -63,11 +64,38 @@
                 return _get(KEYS.wrong) || [];
             },
 
+            saveFavorite(questionId) {
+                const list = _get(KEYS.favorites) || [];
+                if (!list.includes(questionId)) {
+                    list.push(questionId);
+                    _set(KEYS.favorites, list);
+                }
+            },
+
+            removeFavorite(questionId) {
+                const list = _get(KEYS.favorites) || [];
+                const index = list.indexOf(questionId);
+                if (index !== -1) {
+                    list.splice(index, 1);
+                    _set(KEYS.favorites, list);
+                }
+            },
+
+            getFavoriteList() {
+                return _get(KEYS.favorites) || [];
+            },
+
+            isFavorite(questionId) {
+                const list = _get(KEYS.favorites) || [];
+                return list.includes(questionId);
+            },
+
             clearAll() {
                 try {
                     localStorage.removeItem(KEYS.progress);
                     localStorage.removeItem(KEYS.history);
                     localStorage.removeItem(KEYS.wrong);
+                    localStorage.removeItem(KEYS.favorites);
                 } catch (e) {
                     // Silently fail if localStorage is unavailable
                 }

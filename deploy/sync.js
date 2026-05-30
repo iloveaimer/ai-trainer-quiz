@@ -112,6 +112,7 @@
             return {
                 progress: Storage.loadProgress(),
                 wrong: Storage.getWrongList(),
+                favorites: Storage.getFavoriteList(),
                 history: Storage.loadHistory(),
                 lastModified: stored || new Date().toISOString()
             };
@@ -129,6 +130,9 @@
             }
             if (data.wrong) {
                 localStorage.setItem('quiz_wrong', JSON.stringify(data.wrong));
+            }
+            if (data.favorites) {
+                localStorage.setItem('quiz_favorites', JSON.stringify(data.favorites));
             }
             if (data.history) {
                 localStorage.setItem('quiz_history', JSON.stringify(data.history));

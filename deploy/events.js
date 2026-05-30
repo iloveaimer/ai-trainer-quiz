@@ -269,6 +269,25 @@
                         }
                     }
                 });
+
+                // Favorite button (event delegation on questionNumber)
+                document.getElementById('questionNumber').addEventListener('click', function(e) {
+                    var favBtn = e.target.closest('.fav-btn');
+                    if (!favBtn) return;
+                    e.stopPropagation();
+                    var qIndex = parseInt(favBtn.getAttribute('data-question-index'));
+                    if (isNaN(qIndex)) return;
+                    var becameFav = State.toggleFavorite(qIndex);
+                    if (becameFav) {
+                        favBtn.classList.add('active');
+                        favBtn.textContent = '⭐';
+                        favBtn.title = '取消收藏';
+                    } else {
+                        favBtn.classList.remove('active');
+                        favBtn.textContent = '☆';
+                        favBtn.title = '收藏题目';
+                    }
+                });
             }
         };
     })();

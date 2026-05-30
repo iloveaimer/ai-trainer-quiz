@@ -48,6 +48,9 @@
             if (cat === 'wrong') {
                 return Storage.getWrongList().slice();
             }
+            if (cat === 'favorite') {
+                return Storage.getFavoriteList().slice();
+            }
             var indices = [];
             for (var i = 0; i < QUESTIONS.length; i++) {
                 if (cat === 'all' || QUESTIONS[i].type === cat) {
@@ -104,7 +107,7 @@
                 category = cat;
                 var indices = getFilteredIndices(cat);
 
-                if (cat === 'wrong') {
+                if (cat === 'wrong' || cat === 'favorite') {
                     for (var i = 0; i < indices.length; i++) {
                         this.clearAnswer(indices[i]);
                     }
@@ -264,6 +267,20 @@
                 current = createDefault();
                 category = 'all';
                 persist();
+            },
+
+            toggleFavorite(qIndex) {
+                if (Storage.isFavorite(qIndex)) {
+                    Storage.removeFavorite(qIndex);
+                    return false;
+                } else {
+                    Storage.saveFavorite(qIndex);
+                    return true;
+                }
+            },
+
+            isFavorite(qIndex) {
+                return Storage.isFavorite(qIndex);
             }
         };
     })();

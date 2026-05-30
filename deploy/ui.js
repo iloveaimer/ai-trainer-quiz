@@ -1,4 +1,5 @@
-    /* ------- UI Module (Task 3) ------- */ () {
+    /* ------- UI Module (Task 3) ------- */
+    var UI = (function() {
         return {
             render() {
                 var state = State.getCurrent();
@@ -241,12 +242,16 @@
                 var choiceOptions = document.getElementById('choiceOptions');
                 var btnSubmit = document.getElementById('btnSubmit');
 
-                // Build question number with type badge
+                // Build question number with type badge and favorite star
                 var typeLabels = {judge: '判断题', single: '单选题', multi: '多选题'};
+                var isFav = State.isFavorite(qIndex);
+                var favBtn = '<button class="fav-btn' + (isFav ? ' active' : '') + '" id="btnFav" ' +
+                    'data-question-index="' + qIndex + '" title="' + (isFav ? '取消收藏' : '收藏题目') + '">' +
+                    (isFav ? '⭐' : '☆') + '</button>';
                 var typeBadge = '<span class="question-type-badge type-' + question.type + '">' +
                     (typeLabels[question.type] || '') + '</span>';
                 document.getElementById('questionNumber').innerHTML =
-                    '第 ' + (state.currentIndex + 1) + ' 题' + typeBadge;
+                    '第 ' + (state.currentIndex + 1) + ' 题' + typeBadge + favBtn;
                 document.getElementById('questionText').textContent = question.question;
 
                 // Show/hide based on question type
@@ -1154,14 +1159,14 @@
 
                     html += '<div class="download-panel practice-12x-answer-sheet-panel">';
                     html += '<h3 class="download-panel-title">📝 答题要求说明</h3>';
-                    html += '<p class="task-text">本题为<strong>“方案优化设计与业务分析”</strong>实操大题，考生需将答案撰写在答题卷文件中：</p>';
+                    html += '<p class="task-text">本题为<strong>"方案优化设计与业务分析"</strong>实操大题，考生需将答案撰写在答题卷文件中：</p>';
                     html += '<div class="practice-12x-doc-badge">';
                     html += '📁 答题卷文件名：<span class="file-name">' + item.id + '.docx</span>';
                     html += '</div>';
                     html += '<p class="task-text extra-resources-tip">📌 答题卡上对应题号：</p>';
                     html += '<ul class="extra-resources-list">';
-                    html += '<li>第（1）题解答填在 <strong>“' + item.id + '-1”</strong> 区域</li>';
-                    html += '<li>第（2）题解答填在 <strong>“' + item.id + '-2”</strong> 区域</li>';
+                    html += '<li>第（1）题解答填在 <strong>"' + item.id + '-1"</strong> 区域</li>';
+                    html += '<li>第（2）题解答填在 <strong>"' + item.id + '-2"</strong> 区域</li>';
                     html += '</ul>';
                     html += '</div>';
                     html += '</div>';
