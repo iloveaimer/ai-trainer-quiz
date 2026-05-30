@@ -114,7 +114,10 @@
                 this.renderQuestion(question, qIndex);
 
                 // 考试中未交卷，隐藏反馈区
-                if (isExamActive && !isExamCompleted) {
+                // 背题模式：自动展示正确答案和解析
+                if (state.mode === 'memorize') {
+                    this.renderFeedback(question, question.answer, true);
+                } else if (isExamActive && !isExamCompleted) {
                     document.getElementById('feedbackContainer').classList.remove('visible');
                     this.renderExamTimer();
                 } else {
@@ -127,6 +130,20 @@
                     }
                 }
                 this.renderNavigation();
+
+                // 切题自动滚顶（仅长题目/选项过多时：综合题目+选项+解析判断）
+                var totalLen = question.question.length;
+                if (question.options) {
+                    for (var oi = 0; oi < question.options.length; oi++) {
+                        totalLen += question.options[oi].text.length;
+                    }
+                }
+                if (question.explanation && (State.isAnswered(qIndex) || state.mode === 'memorize')) {
+                    totalLen += question.explanation.length;
+                }
+                if (totalLen > 200) {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
             },
 
             renderCategoryTabs() {
@@ -148,6 +165,8 @@
                 if (badgeEl) {
                     if (state.exam && state.exam.inExam) {
                         badgeEl.textContent = '模拟考试';
+                    } else if (state.mode === 'memorize') {
+                        badgeEl.textContent = '📖 背题模式';
                     } else {
                         badgeEl.textContent = state.mode === 'sequential' ? '顺序刷题' : '随机刷题';
                     }
@@ -425,6 +444,20 @@
                         var answerDisplay = question.answer;
                         if (question.type === 'judge') {
                             answerDisplay = question.answer === '√' ? '√ 正确' : '× 错误';
+                        } else if (question.options) {
+                            var labels = question.answer.split('');
+                            var answerTexts = [];
+                            for (var j = 0; j < labels.length; j++) {
+                                for (var k = 0; k < question.options.length; k++) {
+                                    if (question.options[k].label === labels[j]) {
+                                        answerTexts.push('<strong>' + labels[j] + '</strong>. ' + question.options[k].text);
+                                        break;
+                                    }
+                                }
+                            }
+                            if (answerTexts.length > 0) {
+                                answerDisplay = answerTexts.join('；');
+                            }
                         }
 
                         var typeLabel = {judge: '判断', single: '单选', multi: '多选'}[question.type] || '';

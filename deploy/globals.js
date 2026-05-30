@@ -1383,6 +1383,10 @@ process_retail_data('pos_data.csv', 'member_data.csv')`,
             '<div class="wb-question">📝 模拟考试模式</div>' +
             '<div class="wb-meta" style="font-size:0.75rem;">精选官方题配比（40判断 + 140单选 + 10多选），90分钟闭卷考。</div>' +
             '</div>' +
+            '<div class="wrong-book-item" style="border-left-color: var(--memorize);" id="optMemorize">' +
+            '<div class="wb-question">📖 背题模式</div>' +
+            '<div class="wb-meta" style="font-size:0.75rem;">直接展示正确答案与解析，潜意识强化记忆，适合考前快速过题。</div>' +
+            '</div>' +
             '</div>';
 
         Modal.open('选择刷题模式', html);
@@ -1417,6 +1421,19 @@ process_retail_data('pos_data.csv', 'member_data.csv')`,
             Modal.close();
             App.showConfirm('📝', '确定开始模拟考试吗？这将重置您当前的答题进度并开始60分钟倒计时。', function() {
                 startExamMode();
+            });
+        });
+
+        document.getElementById('optMemorize').addEventListener('click', function() {
+            Modal.close();
+            if (state.mode === 'memorize' && !isExamActive) return;
+
+            App.showConfirm('📖', '切换到背题模式将重置当前练习或考试进度，是否继续？', function() {
+                if (isExamActive) stopExamTimer();
+                State.reset();
+                State.setMode('memorize');
+                UI.render();
+                UI.showToast('已切换为背题模式，答案直接可见', 'info');
             });
         });
     }
