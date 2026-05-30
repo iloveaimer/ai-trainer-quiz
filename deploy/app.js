@@ -3925,7 +3925,7 @@ process_retail_data('pos_data.csv', 'member_data.csv')`,
             });
         }
 
-        return { init: init };
+        return { init: init, showConfirm: showConfirm };
     })();
 
     document.addEventListener('DOMContentLoaded', function() {
