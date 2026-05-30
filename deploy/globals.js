@@ -1395,26 +1395,20 @@ process_retail_data('pos_data.csv', 'member_data.csv')`,
             Modal.close();
             if (state.mode === 'sequential' && !isExamActive) return;
             
-            App.showConfirm('🔄', '切换到顺序模式将重置当前练习或考试进度，是否继续？', function() {
-                if (isExamActive) stopExamTimer();
-                State.reset();
-                State.setMode('sequential');
-                UI.render();
-                UI.showToast('已切换为顺序刷题模式', 'info');
-            });
+            if (isExamActive) stopExamTimer();
+            State.setMode('sequential');
+            UI.render();
+            UI.showToast('已切换为顺序刷题模式', 'info');
         });
 
         document.getElementById('optRandom').addEventListener('click', function() {
             Modal.close();
             if (state.mode === 'random' && !isExamActive) return;
 
-            App.showConfirm('🔄', '切换到随机模式将重置当前练习或考试进度，是否继续？', function() {
-                if (isExamActive) stopExamTimer();
-                State.reset();
-                State.setMode('random');
-                UI.render();
-                UI.showToast('已切换为随机刷题模式', 'info');
-            });
+            if (isExamActive) stopExamTimer();
+            State.setMode('random');
+            UI.render();
+            UI.showToast('已切换为随机刷题模式', 'info');
         });
 
         document.getElementById('optExam').addEventListener('click', function() {
