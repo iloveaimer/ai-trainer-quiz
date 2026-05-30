@@ -4,6 +4,10 @@ import { fileURLToPath } from 'url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
+function cleanText(s) {
+    return s.trim().replace(/\s+/g, ' ');
+}
+
 function parseJudgeQuestions(content) {
     const questions = [];
     const blocks = content.split(/\n(?=\d+\.\s)/).filter(b => b.trim());
@@ -22,10 +26,10 @@ function parseJudgeQuestions(content) {
 
         // Extract explanation
         const explMatch = rest.match(/解释：([\s\S]*)/);
-        const explanation = explMatch ? explMatch[1].trim() : '';
+        const explanation = explMatch ? cleanText(explMatch[1]) : '';
 
         // Question text is everything before 答案
-        const questionText = rest.split(/答案：/)[0].trim();
+        const questionText = cleanText(rest.split(/答案：/)[0]);
 
         questions.push({
             id,
@@ -58,7 +62,7 @@ function parseChoiceQuestions(content, type) {
 
         // Extract explanation
         const explMatch = rest.match(/解释：([\s\S]*)/);
-        const explanation = explMatch ? explMatch[1].trim() : '';
+        const explanation = explMatch ? cleanText(explMatch[1]) : '';
 
         // Everything before 答案 is question + options
         const qAndOpts = rest.split(/答案：/)[0].trim();
@@ -79,8 +83,8 @@ function parseChoiceQuestions(content, type) {
         // Question text is everything before the first option
         const firstOptIdx = qAndOpts.search(/\([A-E]\)/);
         const questionText = firstOptIdx >= 0
-            ? qAndOpts.substring(0, firstOptIdx).trim()
-            : qAndOpts.trim();
+            ? cleanText(qAndOpts.substring(0, firstOptIdx))
+            : cleanText(qAndOpts);
 
         questions.push({
             id,
