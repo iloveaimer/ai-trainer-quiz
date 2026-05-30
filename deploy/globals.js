@@ -1428,13 +1428,10 @@ process_retail_data('pos_data.csv', 'member_data.csv')`,
             Modal.close();
             if (state.mode === 'memorize' && !isExamActive) return;
 
-            App.showConfirm('📖', '切换到背题模式将重置当前练习或考试进度，是否继续？', function() {
-                if (isExamActive) stopExamTimer();
-                State.reset();
-                State.setMode('memorize');
-                UI.render();
-                UI.showToast('已切换为背题模式，答案直接可见', 'info');
-            });
+            if (isExamActive) stopExamTimer();
+            State.setMode('memorize');
+            UI.render();
+            UI.showToast('已切换为背题模式，答案直接可见', 'info');
         });
     }
 

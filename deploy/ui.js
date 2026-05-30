@@ -103,6 +103,11 @@
                         document.getElementById('judgeButtons').style.display = 'none';
                         document.getElementById('choiceOptions').style.display = 'none';
                         document.getElementById('btnSubmit').style.display = 'none';
+                    } else if (State.getCategory() === 'favorite') {
+                        document.getElementById('questionText').textContent = '暂无收藏题目，遇到好题点 ⭐ 即可收藏';
+                        document.getElementById('judgeButtons').style.display = 'none';
+                        document.getElementById('choiceOptions').style.display = 'none';
+                        document.getElementById('btnSubmit').style.display = 'none';
                     } else {
                         document.getElementById('questionText').textContent = '题目加载失败，请刷新页面重试。';
                     }

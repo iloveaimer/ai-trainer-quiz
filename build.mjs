@@ -5,7 +5,7 @@ import { fileURLToPath } from 'url';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 function cleanText(s) {
-    return s.trim().replace(/\s+/g, ' ');
+    return s.trim().replace(/\s+/g, ' ').replace(/\s*([、，。；：？！）】」）])\s*/g, '$1').replace(/\s*([（【「（])\s*/g, '$1');
 }
 
 function parseJudgeQuestions(content) {
