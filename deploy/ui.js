@@ -349,6 +349,24 @@
                 var userAnswer = answered ? State.getAnswer(qIndex) : null;
                 var html = '';
 
+                // 背题模式：只展示正确答案
+                if (state.mode === 'memorize') {
+                    for (var i = 0; i < question.options.length; i++) {
+                        var opt = question.options[i];
+                        var isAnswer = question.type === 'single'
+                            ? (opt.label === question.answer)
+                            : (question.answer.indexOf(opt.label) !== -1);
+                        if (isAnswer) {
+                            html += '<button class="choice-option correct-option" data-label="' + opt.label + '" disabled>' +
+                                '<span class="option-label">' + opt.label + '</span>' +
+                                '<span class="option-text">' + opt.text + '</span>' +
+                                '</button>';
+                        }
+                    }
+                    container.innerHTML = html;
+                    return;
+                }
+
                 for (var i = 0; i < question.options.length; i++) {
                     var opt = question.options[i];
                     var isSelected = false;

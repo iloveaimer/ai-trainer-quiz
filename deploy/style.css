@@ -1513,6 +1513,21 @@
             color: #FFFFFF;
         }
 
+        /* 背题模式：仅展示正确答案 */
+        .choice-option.correct-option {
+            border-color: var(--correct);
+            background: var(--correct-light);
+            box-shadow: 0 0 0 2px var(--correct-glow);
+            cursor: default;
+            pointer-events: none;
+        }
+
+        .choice-option.correct-option .option-label {
+            background: var(--correct);
+            border-color: var(--correct);
+            color: #FFFFFF;
+        }
+
         .choice-option.correct {
             border-color: var(--correct) !important;
             background: var(--correct-light) !important;
