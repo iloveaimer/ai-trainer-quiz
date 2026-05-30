@@ -1,3 +1,4 @@
+    /*
      * ------- Sync Module (Firebase Realtime Database) -------
      *
      * Uses a shared "sync code" (6-char alphanumeric) instead of anonymous UID
