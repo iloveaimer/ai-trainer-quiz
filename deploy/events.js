@@ -284,7 +284,8 @@
 
                 // Favorite button (event delegation on questionNumber)
                 document.getElementById('questionNumber').addEventListener('click', function(e) {
-                    var favBtn = e.target.closest('.fav-btn');
+                    var target = e.target.nodeType === 3 ? e.target.parentElement : e.target;
+                    var favBtn = target.closest('.fav-btn');
                     if (!favBtn) return;
                     e.stopPropagation();
                     var qIndex = parseInt(favBtn.getAttribute('data-question-index'));
