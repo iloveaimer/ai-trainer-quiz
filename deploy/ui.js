@@ -397,9 +397,15 @@
                                 '</button>';
                         }
                     }
-                    // Hint
-                    html += '<div class="memorize-hint">' + (memorizeShowAll ? '显示全部选项' : '按 ↑ 或 ↓ 查看全部选项') + '</div>';
+                    // Hint（点击切换，也支持键盘 ↑↓）
+                    html += '<button class="memorize-hint" id="memorizeToggle">' +
+                        (memorizeShowAll ? '▲ 收起选项，仅显示正确答案' : '▼ 查看全部选项') + '</button>';
                     container.innerHTML = html;
+                    // Bind click to toggle
+                    document.getElementById('memorizeToggle').addEventListener('click', function() {
+                        UI.toggleMemorizeShowAll();
+                        UI.render();
+                    });
                     return;
                 }
 
