@@ -23,6 +23,9 @@
             var isExamActive = state.exam && state.exam.inExam;
             var isExamCompleted = state.exam && state.exam.isCompleted;
 
+            // 背题模式下禁止作答（答案已默认展示）
+            if (state.mode === 'memorize') return;
+
             var question = State.getCurrentQuestion();
             var qIndex = State.getCurrentQuestionIndex();
 

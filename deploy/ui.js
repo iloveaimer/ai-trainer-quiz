@@ -300,6 +300,18 @@
                 var isExamActive = state.exam && state.exam.inExam;
                 var isExamCompleted = state.exam && state.exam.isCompleted;
 
+                // 背题模式：仅高亮正确答案，不可点击
+                if (state.mode === 'memorize') {
+                    btnTrue.disabled = true;
+                    btnFalse.disabled = true;
+                    if (question.answer === '√') {
+                        btnTrue.classList.add('selected-correct');
+                    } else {
+                        btnFalse.classList.add('selected-correct');
+                    }
+                    return;
+                }
+
                 if (isExamActive && !isExamCompleted) {
                     btnTrue.disabled = false;
                     btnFalse.disabled = false;
