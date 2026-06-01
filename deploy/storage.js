@@ -95,7 +95,7 @@
                     localStorage.removeItem(KEYS.progress);
                     localStorage.removeItem(KEYS.history);
                     localStorage.removeItem(KEYS.wrong);
-                    localStorage.removeItem(KEYS.favorites);
+                    // 不删除 favorites，收藏夹独立于刷题进度
                 } catch (e) {
                     // Silently fail if localStorage is unavailable
                 }

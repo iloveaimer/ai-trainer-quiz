@@ -249,6 +249,11 @@
                 if (countEl) {
                     countEl.textContent = wrongList.length > 0 ? '(' + wrongList.length + ')' : '';
                 }
+                var favCountEl = document.getElementById('favListCount');
+                if (favCountEl) {
+                    var favList = Storage.getFavoriteList();
+                    favCountEl.textContent = favList.length > 0 ? '(' + favList.length + ')' : '';
+                }
             },
 
             renderQuestion(question, qIndex) {

@@ -26,6 +26,14 @@
             // 背题模式下禁止作答（答案已默认展示）
             if (state.mode === 'memorize') return;
 
+            // 收藏模式下作答不影响正常刷题进度，仅展示反馈
+            if (State.getCategory() === 'favorite') {
+                var favQuestion = State.getCurrentQuestion();
+                var favCorrect = (userAnswer === favQuestion.answer);
+                UI.renderFeedback(favQuestion, userAnswer, favCorrect);
+                return;
+            }
+
             var question = State.getCurrentQuestion();
             var qIndex = State.getCurrentQuestionIndex();
 
@@ -300,6 +308,18 @@
                         favBtn.textContent = '☆';
                         favBtn.title = '收藏题目';
                     }
+                    // 更新收藏数量
+                    var favList = Storage.getFavoriteList();
+                    var favCountEl = document.getElementById('favListCount');
+                    if (favCountEl) {
+                        favCountEl.textContent = favList.length > 0 ? '(' + favList.length + ')' : '';
+                    }
+                });
+
+                // 底部收藏按钮 → 切换到收藏分类
+                document.getElementById('btnFavList').addEventListener('click', function() {
+                    State.setCategory('favorite');
+                    UI.render();
                 });
             }
         };
